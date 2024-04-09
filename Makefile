@@ -42,6 +42,8 @@ build: format get
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o ${APP} -ldflags "-X="${GITHUB}/${APP}/cmd.appVersion=${VERSION}
 
 image:
+	docker buildx create --use --platform=linux/arm64,linux/amd64 --name multi-platform-builder
+	docker buildx inspect --bootstrap
 	docker buildx build --platform linux/amd64,linux/arm64 -t ${IMAGE} --push .
 
 clean:
