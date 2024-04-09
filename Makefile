@@ -1,8 +1,3 @@
-GITHUB=github.com/vlarkin
-APP=chatbot
-REGISTRY=europe-docker.pkg.dev/skillful-fx-417519/docker-images
-VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
-IMAGE=${REGISTRY}/${APP}:${VERSION}
 
 go_version=$(word 4, $(shell go version))
 
@@ -13,6 +8,12 @@ endif
 ifndef TARGETARCH
 	TARGETARCH=$(word 2,$(subst /, , $(go_version)))
 endif
+
+GITHUB=github.com/vlarkin
+APP=chatbot
+REGISTRY=europe-docker.pkg.dev/skillful-fx-417519/docker-images
+VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
+IMAGE=${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
 
 get:
 	go get
@@ -42,9 +43,10 @@ build: format get
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o ${APP} -ldflags "-X="${GITHUB}/${APP}/cmd.appVersion=${VERSION}
 
 image:
-	docker buildx create --use --platform=linux/arm64,linux/amd64 --name multi-platform-builder
-	docker buildx inspect --bootstrap
-	docker buildx build --platform linux/amd64,linux/arm64 -t ${IMAGE} --push .
+	docker build . -t ${IMAGE}
+
+push:
+	docker push ${IMAGE}
 
 clean:
 	rm -rf chatbot

@@ -1,7 +1,6 @@
-FROM --platform=$BUILDPLATFORM quay.io/projectquay/golang:1.20 AS build
+FROM quay.io/projectquay/golang:1.20 AS build
 WORKDIR /go/src/app
 COPY . .
-ARG TARGETOS TARGETARCH
 RUN make build
 
 FROM alpine
