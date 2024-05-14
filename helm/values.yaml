@@ -1,6 +1,7 @@
 replicaCount: 1
 #
 image:
+  pullSecrets: "artifact-registry"
   registry: "europe-docker.pkg.dev/skillful-fx-417519/docker-images"
   repository: "chatbot"
   tag: "v1.0.0-be507b4"
