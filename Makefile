@@ -53,4 +53,3 @@ dockerize: image push
 
 clean:
 	rm -rf chatbot
-	docker rmi -f ${IMAGE}

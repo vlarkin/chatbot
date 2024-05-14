@@ -59,8 +59,7 @@ to quickly create a Cobra application.`,
 				err = m.Send(fmt.Sprintf("Hello I'm ChatBot %s!", appVersion))
 			case "joke":
 				// print a joke
-				joke := getRandomPun()
-				err = m.Send(fmt.Sprintf("%s", joke))
+				err = m.Send(getRandomPun())
 			}
 			return err
 
@@ -78,8 +77,8 @@ func getRandomPun() string {
 		{Setup: "Why couldn’t the leopard play hide and seek?", Punchline: "Because he was always spotted!"},
 		{Setup: "Why don't scientists trust atoms?", Punchline: "Because they make up everything!"},
 	}
-	rand.Seed(int64(len(puns))) // Seed random number generator
-	randomIndex := rand.Intn(len(puns))
+	random := rand.New(rand.NewSource(int64(len(puns))))
+	randomIndex := random.Intn(len(puns))
 	return fmt.Sprintf("%s\n%s", puns[randomIndex].Setup, puns[randomIndex].Punchline)
 }
 
