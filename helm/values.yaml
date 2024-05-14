@@ -1,9 +1,9 @@
 replicaCount: 1
 #
 image:
-  registry: "ghcr.io"
-  repository: "den-vasyliev/kbot"
-  tag: "v1.0.0-106879e"
+  registry: "europe-docker.pkg.dev/skillful-fx-417519/docker-images"
+  repository: "chatbot"
+  tag: "v1.0.0-be507b4"
   os: "linux"
   arch: "amd64"
 #
