@@ -1,0 +1,6 @@
+apiVersion: v2
+name: chatbot
+description: A simple chat bot application for Telegram
+version: 0.1.0
+#
+appVersion: "1.16.0"
