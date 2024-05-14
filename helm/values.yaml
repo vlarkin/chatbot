@@ -4,7 +4,7 @@ appName: "chatbot"
 replicaCount: 1
 #
 image:
-  pullSecret: "artifact-registry"
+  pullSecretName: "artifact-registry"
   repository: "europe-docker.pkg.dev/skillful-fx-417519/docker-images"
   name: "chatbot"
   version: "v1.0.0-be507b4"
