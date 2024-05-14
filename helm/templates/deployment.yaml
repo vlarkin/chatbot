@@ -15,7 +15,7 @@ spec:
         app: {{ .Values.appName }}
     spec:
       imagePullSecrets:
-        - {{ .Values.image.pullSecret }}
+        - name: {{ .Values.image.pullSecretName }}
       containers:
         - name: {{ .Values.appName }}
           image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.version }}-{{ .Values.image.os }}-{{ .Values.image.arch }}
