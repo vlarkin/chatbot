@@ -19,5 +19,12 @@ spec:
       containers:
         - name: {{ .Values.appName }}
           image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.version }}-{{ .Values.image.os }}-{{ .Values.image.arch }}
+          imagePullPolicy: Always
+          env:
+            - name: {{ .Values.secret.env }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key:  {{ .Values.secret.key }}
           ports:
             - containerPort: 8080

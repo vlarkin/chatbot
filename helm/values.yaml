@@ -13,6 +13,6 @@ image:
 #
 secret:
   name: "chatbot"
-  env: "TELE_TOKEN"
   key: "token"
   value: ""
+  env: "TELE_TOKEN"
