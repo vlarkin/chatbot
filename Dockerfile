@@ -8,4 +8,4 @@ FROM alpine
 WORKDIR /
 COPY --from=build /go/src/app/chatbot .
 COPY --from=alpine:latest /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-ENTRYPOINT ["./chatbot"]
+ENTRYPOINT ["./chatbot", "start"]
