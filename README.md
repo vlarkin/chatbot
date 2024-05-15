@@ -17,3 +17,7 @@ Supported commands:
 ```
 
 This bot was tested here https://t.me/RudeGnomeBot
+
+GitHub Actions workflow diagram:
+
+![Image](./workflow.png)
