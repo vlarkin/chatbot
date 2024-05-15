@@ -10,7 +10,6 @@ image:
   version: v1.0.0-be507b4
   os: linux
   arch: amd64
-  tag: v1.0.0-a68f096
 #
 secret:
   env: TELE_TOKEN
