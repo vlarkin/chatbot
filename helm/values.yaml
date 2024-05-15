@@ -1,19 +1,19 @@
 #
-appName: "chatbot"
+appName: chatbot
 #
 replicaCount: 1
 #
 image:
-  pullSecretName: "artifact-registry"
-  repository: "europe-docker.pkg.dev/skillful-fx-417519/docker-images"
-  name: "chatbot"
-  version: "v1.0.0-be507b4"
-  os: "linux"
-  arch: "amd64"
+  pullSecretName: artifact-registry
+  registry: europe-docker.pkg.dev/skillful-fx-417519/docker-images
+  name: chatbot
+  version: v1.0.0-be507b4
+  os: linux
+  arch: amd64
   tag: v1.0.0-3609fb3
 #
 secret:
-  name: "chatbot"
-  key: "token"
+  env: TELE_TOKEN
+  name: chatbot
+  key: token
   value: ""
-  env: "TELE_TOKEN"

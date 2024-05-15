@@ -18,7 +18,7 @@ spec:
         - name: {{ .Values.image.pullSecretName }}
       containers:
         - name: {{ .Values.appName }}
-          image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.version }}-{{ .Values.image.os }}-{{ .Values.image.arch }}
+          image: {{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.version }}-{{ .Values.image.os }}-{{ .Values.image.arch }}
           imagePullPolicy: Always
           env:
             - name: {{ .Values.secret.env }}
