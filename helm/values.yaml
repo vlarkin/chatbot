@@ -4,10 +4,9 @@ appName: chatbot
 replicaCount: 1
 #
 image:
-  pullSecretName: artifact-registry
-  registry: ghcr.io/vlarkin
-  name: chatbot
-  version: v1.0.0-991a597
+  registry: ghcr.io
+  repository: vlarkin/chatbot
+  tag: v1.0.0-991a597
   os: linux
   arch: amd64
 #

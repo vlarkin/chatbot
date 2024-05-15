@@ -42,7 +42,7 @@ jobs:
       - name: Update helm/values.yaml
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i ".image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH) | .image.registry=strenv(DOCKER_REGISTRY) | .image.version=strenv(VERSION)" helm/values.yaml
+          cmd: yq -i ".image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH) | .image.tag=strenv(VERSION)" helm/values.yaml
       - name: Push changes to the repository
         run: |
           git config user.name github-actions
