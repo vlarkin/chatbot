@@ -28,7 +28,7 @@ format:
 lint:
 	golangci-lint run
 
-test:
+tests:
 	go test -v
 
 linux: format get
