@@ -6,7 +6,7 @@ replicaCount: 1
 image:
   registry: ghcr.io
   repository: vlarkin/chatbot
-  tag: v1.0.0-83d1ddb
+  tag: v1.0.0-6702540
   os: linux
   arch: amd64
 #
