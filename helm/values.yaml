@@ -5,12 +5,12 @@ replicaCount: 1
 #
 image:
   pullSecretName: artifact-registry
-  registry: europe-docker.pkg.dev/skillful-fx-417519/docker-images
+  registry: ghcr.io/vlarkin
   name: chatbot
   version: v1.0.0-be507b4
   os: linux
   arch: amd64
-  tag: v1.0.0-3609fb3
+  tag: v1.0.0-a68f096
 #
 secret:
   env: TELE_TOKEN
