@@ -9,7 +9,7 @@ pipeline {
 
     environment {
         REPO = "https://github.com/vlarkin/chatbot"
-        DOCKER_REGISTRY = "https://ghcr.io/vlarkin"
+        DOCKER_REGISTRY = "ghcr.io/vlarkin"
         BRANCH = "master"
         GITHUB_TOKEN = credentials("github-token")
         TARGETARCH = "${params.ARCH}"
