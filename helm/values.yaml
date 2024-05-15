@@ -7,7 +7,7 @@ image:
   pullSecretName: artifact-registry
   registry: ghcr.io/vlarkin
   name: chatbot
-  version: v1.0.0-be507b4
+  version: v1.0.0-67c2c10
   os: linux
   arch: amd64
 #
