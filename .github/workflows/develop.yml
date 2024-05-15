@@ -1,4 +1,4 @@
-name: Main CI/CD workflow
+name: Development CI/CD workflow
 
 on: 
   push:
@@ -20,6 +20,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Run tests
+        run: make tests
       - name: GitHub Container Registry login
         uses: docker/login-action@v3
         with:
@@ -43,9 +45,9 @@ jobs:
         uses: mikefarah/yq@master
         with:
           cmd: yq -i ".image.os=strenv(TARGETOS) | .image.arch=strenv(TARGETARCH) | .image.tag=strenv(VERSION)" helm/values.yaml
-      - name: Push changes to the repository
+      - name: Push updates to the repository
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git commit -am "Update helm/values.yaml"
+          git commit -am "Update helm/values.yaml using version $VERSION"
           git push

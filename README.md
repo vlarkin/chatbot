@@ -16,8 +16,9 @@ Supported commands:
 /start joke
 ```
 
-This bot was tested here https://t.me/RudeGnomeBot
+This bot was tested here https://t.me/RudeGnomeBot 
+ 
 
-GitHub Actions workflow diagram:
-
+A digram for development workflow created in GitHub Actions: 
+ 
 ![Image](./workflow.png)
