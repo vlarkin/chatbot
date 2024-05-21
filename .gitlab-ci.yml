@@ -4,37 +4,46 @@ stages:
   - dockerize
 
 variables:
-  TARGETARCH:
+  TARGETOS:
     value: "linux"
     options:
       - "linux"
       - "macos"
     description: "Pick OS"
-  TARGETOS:
+  TARGETARCH:
     value: "amd64"
     options:
       - "amd64"
       - "arm64"
     description: "Pick ARCH"
-  REPO: "https://git.larkin.com.ua/vlarkin/chatbot"
+  GITHUB_PROJECT: "https://github.com/vlarkin/chatbot"
   DOCKER_REGISTRY: "ghcr.io/vlarkin"
-  BRANCH: "master"
+  APP: "chatbot"
 
 tests-job:
+  image: golang:latest
   stage: tests
   script:
     - echo "Run tests ..."
     - make tests
 
 docker-job:
+  image: docker:latest
+  services:
+    - docker:dind
   stage: dockerize
   before_script:
-    - echo $GITHUB_TOKEN | docker login $DOCKER_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - echo ${GITHUB_TOKEN} | docker login ${DOCKER_REGISTRY} -u ${REGISTRY_USER} --password-stdin
   script:
     - echo "Build and push a docker image"
-    - make dockerize
+    - VERSION=${CI_COMMIT_TAG}-$(git rev-parse --short HEAD)
+    - IMAGE=${DOCKER_REGISTRY}/${APP}:${VERSION}
+    - docker build --platform linux/${TARGETARCH} -t ${IMAGE}-linux-${TARGETARCH} .
+    - docker push ${IMAGE}-linux-${TARGETARCH}
   after_script:
-    - make clean && docker system prune -a --volumes --force
+    - docker system prune -a --volumes --force
   needs:
     - tests-job
+  only:
+    - tags
 
