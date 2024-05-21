@@ -1,0 +1,57 @@
+stages:
+  - clone
+  - tests
+  - registry
+  - dockerize
+  - cleanup
+
+variables:
+  REPO: "https://github.com/vlarkin/chatbot"
+  DOCKER_REGISTRY: "ghcr.io/vlarkin"
+  BRANCH: "master"
+  GITHUB_TOKEN: $GITHUB_TOKEN
+  TARGETARCH: $ARCH
+  TARGETOS: $OS
+
+clone:
+  stage: clone
+  script:
+    - echo "Clone a repository"
+    - git clone --branch $BRANCH $REPO .
+
+tests:
+  stage: tests
+  script:
+    - echo "Run tests"
+    - make tests
+
+registry:
+  stage: registry
+  script:
+    - echo "Login to Container Registry"
+    - echo $GITHUB_TOKEN | docker login $DOCKER_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+
+dockerize:
+  stage: dockerize
+  script:
+    - echo "Build and push a docker image"
+    - make dockerize
+
+cleanup:
+  stage: cleanup
+  script:
+    - echo "Cleanup the environment"
+    - make clean
+    - docker system prune -a --volumes --force
+
+after_script:
+  - docker logout
+
+# Add default values for parameters
+default:
+  before_script:
+    - export ARCH=${ARCH:-amd64}
+    - export OS=${OS:-linux}
+    - echo "Selected ARCH: $ARCH"
+    - echo "Selected OS: $OS"
+
