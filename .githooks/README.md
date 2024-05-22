@@ -9,7 +9,7 @@ Copy the pre-commit hook script to the `.git/hooks` directory and make it execut
 
 ```
 cp .githooks/pre-commit .git/hooks/pre-commit
-chmod 0755 .githooks/pre-commit
+chmod 0755 .git/hooks/pre-commit
 git config --local gitleaks.enable "true"
 ```
 
@@ -18,5 +18,6 @@ git config --local gitleaks.enable "true"
 After installing the pre-commit hook script and enabling Gitleaks in Git config, try to commit your changes:
 
 ```
-git commit
+git add .
+git commit -m "Test commit"
 ```

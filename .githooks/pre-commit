@@ -15,7 +15,7 @@ get_os() {
 get_arch() {
   arch_out="$(uname -m)"
   case "${arch_out}" in
-      x86_64)     arch=amd64;;
+      x86_64)     arch=x64;;
       arm64)      arch=arm64;;
       *)          arch="UNKNOWN:${arch_out}"
   esac
