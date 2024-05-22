@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Detect the OS (needs to be expanded with other systems)
+get_os() {
+  uname_out="$(uname -s)"
+  case "${uname_out}" in
+      Linux*)     os=linux;;
+      Darwin*)    os=darwin;;
+      *)          os="UNKNOWN:${uname_out}"
+  esac
+  echo ${os}
+}
+
+# Detect the architecture
+get_arch() {
+  arch_out="$(uname -m)"
+  case "${arch_out}" in
+      x86_64)     arch=amd64;;
+      arm64)      arch=arm64;;
+      *)          arch="UNKNOWN:${arch_out}"
+  esac
+  echo ${arch}
+}
+
+# Get the latest Gitleaks release version
+get_latest_release() {
+    curl --silent "https://api.github.com/repos/gitleaks/gitleaks/releases/latest" | grep tag_name | awk -F'"' '{print $4}' | sed 's/^v//'
+}
+
+function run_gitleaks() {
+    # Install gitleaks if it's not installed
+    if ! [ -x "$(command -v gitleaks)" ]; then
+        echo 'Error: gitleaks is not installed.' >&2
+        echo 'Installing gitleaks...'
+        os=$(get_os)
+        arch=$(get_arch)
+        if [ "$os" = "UNKNOWN" ] || [ "$arch" = "UNKNOWN" ]; then
+            echo "Unsupported OS or architecture: ${os} ${arch}"
+            exit 1
+        fi
+        version=$(get_latest_release)
+        if [ -z "$version" ]; then
+            echo "Failed to fetch the latest Gitleaks release version"
+            exit 1
+        fi
+        url="https://github.com/gitleaks/gitleaks/releases/download/v${version}/gitleaks_${version}_${os}_${arch}.tar.gz"
+        curl -sSfL $url | sudo tar -xz -C /usr/local/bin gitleaks
+    fi
+    
+    # Run gitleaks to check for sensitive information
+    echo 'Running gitleaks...'
+    gitleaks detect --source . --redact
+    
+    # Check the exit code of gitleaks
+    if [ $? -ne 0 ]; then
+        echo 'Gitleaks detected sensitive information in your changes. Please review and fix the issues.' >&2
+        exit 1
+    fi
+}
+
+# Run gitleaks if it's enabled in git config
+gitleaks_enabled=$(git config --get gitleaks.enable)
+if [ "$gitleaks_enabled" = true ] ; then
+    run_gitleaks
+fi
+
+exit 0
