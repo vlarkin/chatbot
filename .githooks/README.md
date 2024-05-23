@@ -3,20 +3,22 @@
 
 Gitleaks is a SAST tool for detecting and preventing hardcoded secrets like passwords, api keys, and tokens in git repos.
 
-## Installing a Pre-Commit Hook Script to Install and Run Gitleaks
+## Installing a Pre-Commit Hook Script
 
-After cloning this repository to a local folder, navigate to that folder and run the following commands: 
+The `pre-commit` script can be installed in any repository's `.git/hooks` folder. 
+
+Navigate to your repository folder and run the following commands: 
 ```
-cp .githooks/pre-commit .git/hooks/pre-commit
+curl -fsL https://raw.githubusercontent.com/vlarkin/chatbot/master/.githooks/pre-commit > .git/hooks/pre-commit
 chmod 0755 .git/hooks/pre-commit
 git config --local gitleaks.enable "true"
 ```
 
-The installed pre-commit hook script automatically installs 'gitleaks' tool if it’s not already present on the system.
+The `pre-commit` script automatically installs `gitleaks` tool if it’s not already present on the system.
 
 ## Verifying Gitleaks Installation
 
-After installing the pre-commit hook script, try committing your changes:
+After installing the `pre-commit` hook script in your repository, try committing changes:
 
 ```
 git add .
