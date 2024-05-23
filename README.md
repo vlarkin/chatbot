@@ -21,7 +21,7 @@ This bot was tested here https://t.me/RudeGnomeBot
 
 A digram for development workflow created in GitHub Actions: 
  
-![Image](./workflow.png)
+![Image](/images/workflow.png)
 
 #### Install a pre commit hook script with gitleaks
 
