@@ -1,0 +1,4 @@
+# Workaround for starting Grafana with Jaeger
+env:
+  JAEGER_AGENT_HOST: ""
+  JAEGER_AGENT_PORT: ""
