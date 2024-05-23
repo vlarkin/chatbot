@@ -23,6 +23,11 @@ A digram for development workflow created in GitHub Actions:
  
 ![Image](/images/workflow.png)
 
+#### Monitoring and tracing
+
+Instructions for installing a monitoring stack for this application are provided [here](/monitoring/README.md)
+
+
 #### Install a pre commit hook script with gitleaks
 
 Gitleaks is a SAST tool for detecting and preventing hardcoded secrets like passwords, api keys, and tokens in git repos. 

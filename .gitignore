@@ -6,3 +6,9 @@
 
 # Go workspace file
 go.work
+
+# Ignore .DS_Store
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
