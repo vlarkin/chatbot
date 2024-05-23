@@ -49,7 +49,7 @@ function run_gitleaks() {
     
     # Run gitleaks to check for sensitive information
     echo 'Running gitleaks...'
-    gitleaks detect --source . --redact
+    gitleaks protect --source . --redact --staged
     
     # Check the exit code of gitleaks
     if [ $? -ne 0 ]; then
