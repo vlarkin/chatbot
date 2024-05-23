@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM quay.io/projectquay/golang:1.20 AS build
+FROM --platform=$BUILDPLATFORM quay.io/projectquay/golang:1.22 AS build
 WORKDIR /go/src/app
 COPY . .
 ARG TARGETOS TARGETARCH

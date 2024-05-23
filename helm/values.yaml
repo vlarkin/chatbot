@@ -3,6 +3,8 @@ appName: chatbot
 #
 replicaCount: 1
 #
+imagePullSecrets:
+  - name: docker-registry
 image:
   registry: ghcr.io
   repository: vlarkin/chatbot
