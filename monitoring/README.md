@@ -1,6 +1,19 @@
 
 # Monitoring and tracing
 
+The monitoring stack for this project is based on the following components:
+
+```
+OpenTelemetry
+Prometheus
+Fluentbit
+Grafana Loki
+Grafana
+Jaeger
+```
+
+Here are the instructions for installing the monitoring stack.  
+
 Install cert-manager to add certificates and certificate issuers as resource types in Kubernetes clusters. This tool simplifies the process of obtaining, renewing, and using certificates.  
 
 ```
@@ -15,7 +28,7 @@ kubectl create namespace monitoring
 
 ## Monitoring
 
-Install the OpenTelemetry collector:
+Install the OpenTelemetry collector first:
 
 ```
 helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
@@ -26,9 +39,13 @@ Then install the rest of the monitoring tools:
 
 ```
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add fluent https://fluent.github.io/helm-charts
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
-helm install grafana grafana/grafana -n monitoring --values monitoring/grafana/values.yaml
+helm install prometheus prometheus-community/prometheus  -n monitoring --values prometheus/values.yaml
+helm install fluent-bit fluent/fluent-bit -n monitoring --values fluent-bit/values.yaml 
+helm install grafana grafana/grafana -n monitoring --values grafana/values.yaml
+helm install loki grafana/loki -n monitoring --values  loki/values.yaml
 ```
 
 Get admin password for Grafana access:
@@ -43,7 +60,9 @@ export GR_POD_NAME=$(kubectl get pods --namespace monitoring -l "app.kubernetes.
 kubectl --namespace monitoring port-forward $GR_POD_NAME 3000
 ```
 
-You can then navigate to http://127.0.0.1:3000 to access the Grafana UI.
+You can then navigate to http://127.0.0.1:3000 to access the Grafana UI.  
+
+Demo screenshots of the Grafana UI with dashboards: [grafana1](/images/grafana1.png), [grafana2](/images/grafana2.png) and [grafana3](/images/grafana3.png).
 
 ## Tracing
 
@@ -59,7 +78,7 @@ helm install jaeger-operator jaegertracing/jaeger-operator -n monitoring --value
 helm install jaeger jaegertracing/jaeger  -n monitoring --values jaeger/values.yaml
 ```
 
-Set up access to the Jaeger Query UI: 
+Set up access to the Jaeger UI: 
 
 ```
 export JG_POD_NAME=$(kubectl --namespace monitoring get pods  -l "app.kubernetes.io/instance=jaeger,app.kubernetes.io/component=query" -o jsonpath="{.items[0].metadata.name}")
@@ -72,5 +91,5 @@ Tracing requires adding special functions and calls to an application.
 Here is an example of how to do it in a Golang app: https://github.com/open-telemetry/opentelemetry-go/blob/main/example/otel-collector/main.go.
 For the monitoring stack described here, the endpoint for tracing is `otel-collector-opentelemetry-collector.monitoring.svc.cluster.local:4317`.
 
-Views of the Jaeger Dashboard with example tracing data from a chatbot app: [tracing1](/images/tracing1.png), [tracing2](/images/tracing2.png) and [tracing3](/images/tracing3.png).
+Views of the Jaeger UI with example tracing data from a chatbot app: [tracing1](/images/tracing1.png), [tracing2](/images/tracing2.png) and [tracing3](/images/tracing3.png).
 
