@@ -14,27 +14,10 @@ Jaeger
 
 Here are the instructions for installing the monitoring stack.  
 
-# Install the basic components in your Kubernetes cluster
-
-Here's how to quickly install Flux on a Kuberenetes cluster: 
-
-```
-flux check --pre
-flux install
-flux check
-```
-
 Install cert-manager to add certificates and certificate issuers as resource types in Kubernetes clusters. This tool simplifies the process of obtaining, renewing, and using certificates.  
 
 ```
-flux create source helm cert-manager --url https://charts.jetstack.io
-flux create helmrelease cert-manager \
-  --chart cert-manager \
-  --source HelmRepository/cert-manager.flux-system \
-  --release-name cert-manager \
-  --target-namespace cert-manager \
-  --create-target-namespace \
-  --values monitoring/cert-manager/values.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
 ```
 
 Create a namespace for deploying the monitoring stack:  
@@ -48,45 +31,18 @@ kubectl create namespace monitoring
 Install the OpenTelemetry collector first:
 
 ```
-flux create source helm opentelemetry --url https://open-telemetry.github.io/opentelemetry-helm-charts
-flux create helmrelease otel-collector \
-  --chart opentelemetry-collector \
-  --source HelmRepository/opentelemetry.flux-system \
-  --release-name otel-collector \
-  --target-namespace monitoring \
-  --create-target-namespace \
-  --values monitoring/otel-collector/values.yaml
-```
-
-Install Prometheus:
-```
-flux create source helm prometheus --url https://prometheus-community.github.io/helm-charts
-flux create helmrelease prometheus \
-  --chart prometheus \
-  --source HelmRepository/prometheus.flux-system \
-  --release-name prometheus \
-  --target-namespace monitoring \
-  --create-target-namespace \
-  --values monitoring/prometheus/values.yaml
-```
-
-Setup access to Prometheus UI
-```
-export PR_POD_NAME=$(kubectl get pods --namespace monitoring -l "app.kubernetes.io/name=prometheus,app.kubernetes.io/instance=prometheus" -o jsonpath="{.items[0].metadata.name}")
-kubectl --namespace monitoring port-forward $PR_POD_NAME 9090
-```
-
-You can then navigate to http://127.0.0.1:3000 to access the Prometheus UI:
-```
-http://127.0.0.1:9090
+helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+helm install otel-collector open-telemetry/opentelemetry-collector -n monitoring --set image.repository="otel/opentelemetry-collector-k8s" --values otel-collector/values.yaml
 ```
 
 Then install the rest of the monitoring tools:
 
 ```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo add fluent https://fluent.github.io/helm-charts
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
+helm install prometheus prometheus-community/prometheus  -n monitoring --values prometheus/values.yaml
 helm install fluent-bit fluent/fluent-bit -n monitoring --values fluent-bit/values.yaml 
 helm install grafana grafana/grafana -n monitoring --values grafana/values.yaml
 helm install loki grafana/loki -n monitoring --values  loki/values.yaml

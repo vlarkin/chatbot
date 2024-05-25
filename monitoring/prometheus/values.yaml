@@ -1,0 +1,11 @@
+
+server:
+  global:
+    scrape_interval: 15s
+    evaluation_interval: 15s
+
+extraScrapeConfigs:
+  - job_name: otel_collector
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['collector:8889']
