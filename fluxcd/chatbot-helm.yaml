@@ -1,0 +1,18 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: chatbot
+  namespace: default
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: helm
+      version: 0.1.0
+      sourceRef:
+        kind: GitRepository
+        name: fluxcd-chatbot
+        namespace: flux-system
+      valuesFiles:
+      - chatbot/values.yaml
+      interval: 10m
