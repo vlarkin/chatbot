@@ -3,6 +3,7 @@ name: Development CI/CD workflow
 on: 
   push:
     branches:
+      - master
       - develop
 
 env:
@@ -49,5 +50,5 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git commit -am "Update helm/values.yaml using version $VERSION"
+          git commit -am "[skip actions] Update helm/values.yaml using version $VERSION"
           git push

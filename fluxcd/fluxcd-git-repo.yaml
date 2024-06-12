@@ -7,4 +7,4 @@ spec:
   interval: 10m
   url: https://github.com/vlarkin/chatbot
   ref:
-    branch: main
+    branch: master
