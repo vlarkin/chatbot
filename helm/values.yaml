@@ -8,7 +8,7 @@ imagePullSecrets:
 image:
   registry: ghcr.io
   repository: vlarkin/chatbot
-  tag: v1.0.0-83d1ddb
+  tag: v1.0.0-046d86a
   os: linux
   arch: amd64
 #
