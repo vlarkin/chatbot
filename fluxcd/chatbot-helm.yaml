@@ -14,5 +14,5 @@ spec:
         name: fluxcd-chatbot
         namespace: flux-system
       valuesFiles:
-      - chatbot/values.yaml
+      - helm/values.yaml
       interval: 10m
